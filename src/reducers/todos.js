@@ -1,7 +1,7 @@
 'use strict';
 import TODO from '../constants/constants.js';
 
-export default function todos(state = [], action) {
+export default function todos(state = [{content:"text", completed: false, id: 'sdfsdf'}], action) {
     switch (action.type) {
         case TODO.ADD_TODO:
             return [...state, {content: action.content, completed: false, id: new Date().getTime()}];

@@ -9,3 +9,11 @@ export function addTodo(text) {
         content: text
     }
 }
+
+
+export function toggleTodo(id) {
+   return {
+       type: TODO.TOGGLE_TODO,
+       id: id
+   } 
+}

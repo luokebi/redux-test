@@ -1,0 +1,35 @@
+.TodoItem {
+  line-height: 50px;
+  font-size: 18px;
+  padding: 0 30px 0 10px;
+  position: relative;
+
+  .content {
+
+  }
+  .check-icon {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 2px solid #eeeeee;
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #999;
+    }
+  }
+
+  &.completed {
+    .content {
+        text-decoration: line-through;
+        color: #999;
+    }
+
+    .check-icon {
+
+    }
+  }
+}

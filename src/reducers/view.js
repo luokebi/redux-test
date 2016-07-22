@@ -5,7 +5,7 @@ import TODO from '../constants/constants.js';
 
 export default function view(state = TODO.FILTER_ALL, action) {
     switch (action.type) {
-        case CHANGE_VIEW:
+        case TODO.CHANGE_VIEW:
             if (state !== action.view) {
                 return action.view;
             } else {

@@ -1,13 +1,54 @@
+.TodoItem {
+  line-height: 50px;
+  font-size: 18px;
+  padding: 0 30px 0 10px;
+  position: relative;
+}
+.TodoItem .check-icon {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 2px solid #eeeeee;
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  cursor: pointer;
+}
+.TodoItem .check-icon:hover {
+  border-color: #999;
+}
+.TodoItem.completed .content {
+  text-decoration: line-through;
+  color: #999;
+}
 .TodoList {
-  height: 460px;
+  height: 380px;
   overflow: auto;
+}
+.AddTodoBox input {
+  padding: 10px 10px;
+  font-size: 16px;
+  width: 280px;
+}
+.AddTodoBox .btn {
+  margin-left: 20px;
+  display: inline-block;
+  padding: 10px 20px;
+  background: #bb33dd;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.AddTodoBox .btn:hover {
+  opacity: 1;
 }
 .App {
   font-family: Arial;
 }
 .App .container {
   height: 500px;
-  width: 600px;
+  width: 400px;
   margin: auto;
   position: absolute;
   top: 0;
@@ -19,5 +60,5 @@
   font-size: 32px;
   font-weight: 600;
   text-align: center;
-  line-height: 40px;
+  line-height: 80px;
 }
