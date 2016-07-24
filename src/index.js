@@ -5,7 +5,7 @@ import App from './components/App.js';
 import {createStore} from 'redux';
 import todoReducer from './reducers/todoApp';
 
-let store = createStore(todoReducer);
+let store = createStore(todoReducer, window.devToolsExtension && window.devToolsExtension());
 render(
     <Provider store={store}>
         <App/>
