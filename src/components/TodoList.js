@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import TodoItem from './TodoItem.js';
 require('./TodoList.less');
-import {toggleTodo} from '../actions/todoAction.js';
+import TODO from '../constants/constants.js';
 
 class TodoList extends Component {
     constructor() {
@@ -11,13 +11,21 @@ class TodoList extends Component {
         this.onToggleTodo = this.onToggleTodo.bind(this);
     }
     onToggleTodo(id) {
-        this.props.dispatch(toggleTodo(id));
+        this.props.actions.toggleTodo(id);
     }
     render() {
         const { dispatch, todos, view } = this.props;
+        var _todos = todos.filter(function(t) {
+            console.log(view);
+            if (view === TODO.FILTER_COMPLETED) {
+                return t.completed === true;
+            } else {
+                return true;
+            }
+        });
         return (
             <div className="TodoList">
-                {todos.map((t) => {
+                {_todos.map((t) => {
                     return (
                         <TodoItem key={t.id} todo={t} onToggleTodo={this.onToggleTodo}/>
                     )

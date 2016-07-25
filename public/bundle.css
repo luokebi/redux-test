@@ -22,7 +22,7 @@
   color: #999;
 }
 .TodoList {
-  height: 380px;
+  max-height: 380px;
   overflow: auto;
 }
 .AddTodoBox input {
@@ -42,6 +42,13 @@
 }
 .AddTodoBox .btn:hover {
   opacity: 1;
+}
+.ViewSelect .viewItem {
+  margin: 0 10px;
+  cursor: pointer;
+}
+.ViewSelect .viewItem.current {
+  font-weight: bold;
 }
 .App {
   font-family: Arial;

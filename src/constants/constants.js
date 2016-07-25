@@ -8,7 +8,7 @@ var Constants = keyMirror({
     TOGGLE_TODO: null,
 
     FILTER_ALL: null,
-    FILETER_COMPLETED: null,
+    FILTER_COMPLETED: null,
     CHANGE_VIEW: null
 });
 

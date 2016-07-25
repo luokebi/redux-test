@@ -17,3 +17,10 @@ export function toggleTodo(id) {
        id: id
    } 
 }
+
+export function changeView(view) {
+    return {
+        type: TODO.CHANGE_VIEW,
+        view: view
+    }
+}
