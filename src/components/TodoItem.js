@@ -2,12 +2,15 @@
 
 import React, {Component} from 'react';
 import cx from 'classnames';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 require('./TodoItem.less');
 
 class TodoItem extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
+
     render() {
         const {todo} = this.props;
         let cls = cx('TodoItem', todo.completed ? 'completed': '');

@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import App from './containers/App.js';
 import {createStore} from 'redux';
 import todoReducer from './reducers/todoApp';
-
+window.Pref = require('react-addons-perf');
 let store = createStore(todoReducer, window.devToolsExtension && window.devToolsExtension());
 render(
     <Provider store={store}>

@@ -3,12 +3,14 @@
 import React, { Component } from 'react';
 import TODO from '../constants/constants.js';
 import cx from 'classnames';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 require('./ViewSelect.less');
 
 class ViewSelect extends Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.switchView = this.switchView.bind(this);
     }
 
@@ -21,9 +23,10 @@ class ViewSelect extends Component{
         var clsComp = cx('viewItem', this.props.view === TODO.FILTER_COMPLETED ? 'current':'');
        return (
          <div className="ViewSelect">
-             View:
+             Show:
              <a className={clsAll} onClick={this.switchView.bind(this, TODO.FILTER_ALL)}>All</a>
              <a className={clsComp} onClick={this.switchView.bind(this, TODO.FILTER_COMPLETED)}>Completed</a>
+             <a className={clsComp} onClick={this.switchView.bind(this, TODO.FILTER_ACTIVE)}>Active</a>
          </div>
        );
     }

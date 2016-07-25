@@ -60,12 +60,13 @@
 
 	var _redux = __webpack_require__(179);
 
-	var _todoApp = __webpack_require__(212);
+	var _todoApp = __webpack_require__(218);
 
 	var _todoApp2 = _interopRequireDefault(_todoApp);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	window.Pref = __webpack_require__(221);
 	var store = (0, _redux.createStore)(_todoApp2.default, window.devToolsExtension && window.devToolsExtension());
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -22679,15 +22680,15 @@
 
 	var _reactRedux = __webpack_require__(172);
 
-	var _AddTodoBox = __webpack_require__(207);
+	var _AddTodoBox = __webpack_require__(209);
 
 	var _AddTodoBox2 = _interopRequireDefault(_AddTodoBox);
 
-	var _todoAction = __webpack_require__(202);
+	var _todoAction = __webpack_require__(212);
 
 	var todoActions = _interopRequireWildcard(_todoAction);
 
-	var _ViewSelect = __webpack_require__(215);
+	var _ViewSelect = __webpack_require__(213);
 
 	var _ViewSelect2 = _interopRequireDefault(_ViewSelect);
 
@@ -22703,7 +22704,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(210);
+	__webpack_require__(216);
 
 	var App = function (_Component) {
 	    _inherits(App, _Component);
@@ -22790,7 +22791,7 @@
 
 	var _TodoItem2 = _interopRequireDefault(_TodoItem);
 
-	var _constants = __webpack_require__(203);
+	var _constants = __webpack_require__(205);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -22802,21 +22803,26 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(205);
+	__webpack_require__(207);
 
 	var TodoList = function (_Component) {
 	    _inherits(TodoList, _Component);
 
-	    function TodoList() {
+	    function TodoList(props) {
 	        _classCallCheck(this, TodoList);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoList).call(this));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoList).call(this, props));
 
 	        _this.onToggleTodo = _this.onToggleTodo.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(TodoList, [{
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(nextProps, nextState) {
+	            return nextProps.todos !== this.props.todos || nextProps.view !== this.props.view;
+	        }
+	    }, {
 	        key: 'onToggleTodo',
 	        value: function onToggleTodo(id) {
 	            this.props.actions.toggleTodo(id);
@@ -22835,6 +22841,8 @@
 	                console.log(view);
 	                if (view === _constants2.default.FILTER_COMPLETED) {
 	                    return t.completed === true;
+	                } else if (view === _constants2.default.FILTER_ACTIVE) {
+	                    return t.completed == false;
 	                } else {
 	                    return true;
 	                }
@@ -22874,6 +22882,10 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
+	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22882,15 +22894,18 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(198);
+	__webpack_require__(201);
 
 	var TodoItem = function (_Component) {
 	    _inherits(TodoItem, _Component);
 
-	    function TodoItem() {
+	    function TodoItem(props) {
 	        _classCallCheck(this, TodoItem);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItem).call(this));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItem).call(this, props));
+
+	        _this.shouldComponentUpdate = _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(TodoItem, [{
@@ -22973,55 +22988,104 @@
 
 /***/ },
 /* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(199);
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactComponentWithPureRenderMixin
+	 */
+
+	'use strict';
+
+	var shallowCompare = __webpack_require__(200);
+
+	/**
+	 * If your React component's render function is "pure", e.g. it will render the
+	 * same result given the same props and state, provide this mixin for a
+	 * considerable performance boost.
+	 *
+	 * Most React components have pure render functions.
+	 *
+	 * Example:
+	 *
+	 *   var ReactComponentWithPureRenderMixin =
+	 *     require('ReactComponentWithPureRenderMixin');
+	 *   React.createClass({
+	 *     mixins: [ReactComponentWithPureRenderMixin],
+	 *
+	 *     render: function() {
+	 *       return <div className={this.props.className}>foo</div>;
+	 *     }
+	 *   });
+	 *
+	 * Note: This only checks shallow equality for props and state. If these contain
+	 * complex data structures this mixin may have false-negatives for deeper
+	 * differences. Only mixin to components which have simple props and state, or
+	 * use `forceUpdate()` when you know deep data structures have changed.
+	 *
+	 * See https://facebook.github.io/react/docs/pure-render-mixin.html
+	 */
+	var ReactComponentWithPureRenderMixin = {
+	  shouldComponentUpdate: function (nextProps, nextState) {
+	    return shallowCompare(this, nextProps, nextState);
+	  }
+	};
+
+	module.exports = ReactComponentWithPureRenderMixin;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	* @providesModule shallowCompare
+	*/
+
+	'use strict';
+
+	var shallowEqual = __webpack_require__(133);
+
+	/**
+	 * Does a shallow comparison for props and state.
+	 * See ReactComponentWithPureRenderMixin
+	 * See also https://facebook.github.io/react/docs/shallow-compare.html
+	 */
+	function shallowCompare(instance, nextProps, nextState) {
+	  return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
+	}
+
+	module.exports = shallowCompare;
+
+/***/ },
+/* 201 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.addTodo = addTodo;
-	exports.toggleTodo = toggleTodo;
-	exports.changeView = changeView;
-
-	var _constants = __webpack_require__(203);
-
-	var _constants2 = _interopRequireDefault(_constants);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function addTodo(text) {
-	    return {
-	        type: _constants2.default.ADD_TODO,
-	        content: text
-	    };
-	}
-
-	function toggleTodo(id) {
-	    return {
-	        type: _constants2.default.TOGGLE_TODO,
-	        id: id
-	    };
-	}
-
-	function changeView(view) {
-	    return {
-	        type: _constants2.default.CHANGE_VIEW,
-	        view: view
-	    };
-	}
-
-/***/ },
-/* 203 */
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23030,7 +23094,7 @@
 	    value: true
 	});
 
-	var _keymirror = __webpack_require__(204);
+	var _keymirror = __webpack_require__(206);
 
 	var _keymirror2 = _interopRequireDefault(_keymirror);
 
@@ -23043,13 +23107,14 @@
 
 	    FILTER_ALL: null,
 	    FILTER_COMPLETED: null,
+	    FILTER_ACTIVE: null,
 	    CHANGE_VIEW: null
 	});
 
 	exports.default = Constants;
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports) {
 
 	/**
@@ -23108,14 +23173,14 @@
 
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 206 */,
-/* 207 */
+/* 208 */,
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23130,6 +23195,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23138,16 +23207,17 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(208);
+	__webpack_require__(210);
 
 	var AddTodoBox = function (_Component) {
 	    _inherits(AddTodoBox, _Component);
 
-	    function AddTodoBox() {
+	    function AddTodoBox(props) {
 	        _classCallCheck(this, AddTodoBox);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AddTodoBox).call(this));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AddTodoBox).call(this, props));
 
+	        _this.shouldComponentUpdate = _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.bind(_this);
 	        _this.onAddTodo = _this.onAddTodo.bind(_this);
 	        _this.handleKeyDown = _this.handleKeyDown.bind(_this);
 	        return _this;
@@ -23192,13 +23262,6 @@
 	exports.default = AddTodoBox;
 
 /***/ },
-/* 208 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 209 */,
 /* 210 */
 /***/ function(module, exports) {
 
@@ -23214,16 +23277,159 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.addTodo = addTodo;
+	exports.toggleTodo = toggleTodo;
+	exports.changeView = changeView;
 
-	var _constants = __webpack_require__(203);
+	var _constants = __webpack_require__(205);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function addTodo(text) {
+	    return {
+	        type: _constants2.default.ADD_TODO,
+	        content: text
+	    };
+	}
+
+	function toggleTodo(id) {
+	    return {
+	        type: _constants2.default.TOGGLE_TODO,
+	        id: id
+	    };
+	}
+
+	function changeView(view) {
+	    return {
+	        type: _constants2.default.CHANGE_VIEW,
+	        view: view
+	    };
+	}
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _constants = __webpack_require__(205);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	var _classnames = __webpack_require__(197);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	__webpack_require__(214);
+
+	var ViewSelect = function (_Component) {
+	    _inherits(ViewSelect, _Component);
+
+	    function ViewSelect(props) {
+	        _classCallCheck(this, ViewSelect);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ViewSelect).call(this, props));
+
+	        _this.shouldComponentUpdate = _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.bind(_this);
+	        _this.switchView = _this.switchView.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(ViewSelect, [{
+	        key: 'switchView',
+	        value: function switchView(view) {
+	            this.props.switchView(view);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var clsAll = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_ALL ? 'current' : '');
+	            var clsComp = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_COMPLETED ? 'current' : '');
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'ViewSelect' },
+	                'Show:',
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: clsAll, onClick: this.switchView.bind(this, _constants2.default.FILTER_ALL) },
+	                    'All'
+	                ),
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: clsComp, onClick: this.switchView.bind(this, _constants2.default.FILTER_COMPLETED) },
+	                    'Completed'
+	                ),
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: clsComp, onClick: this.switchView.bind(this, _constants2.default.FILTER_ACTIVE) },
+	                    'Active'
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ViewSelect;
+	}(_react.Component);
+
+	exports.default = ViewSelect;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 215 */,
+/* 216 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 217 */,
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _constants = __webpack_require__(205);
 
 	var _redux = __webpack_require__(179);
 
-	var _todos = __webpack_require__(213);
+	var _todos = __webpack_require__(219);
 
 	var _todos2 = _interopRequireDefault(_todos);
 
-	var _view = __webpack_require__(214);
+	var _view = __webpack_require__(220);
 
 	var _view2 = _interopRequireDefault(_view);
 
@@ -23235,7 +23441,7 @@
 	});
 
 /***/ },
-/* 213 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23245,7 +23451,7 @@
 	});
 	exports.default = todos;
 
-	var _constants = __webpack_require__(203);
+	var _constants = __webpack_require__(205);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -23278,7 +23484,7 @@
 	}
 
 /***/ },
-/* 214 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23288,7 +23494,7 @@
 	});
 	exports.default = view;
 
-	var _constants = __webpack_require__(203);
+	var _constants = __webpack_require__(205);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -23312,89 +23518,510 @@
 	}
 
 /***/ },
-/* 215 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(222);
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2016-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactPerf
+	 */
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
+	var _assign = __webpack_require__(4);
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _extends = _assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _react = __webpack_require__(1);
+	var ReactDebugTool = __webpack_require__(62);
+	var warning = __webpack_require__(11);
+	var alreadyWarned = false;
 
-	var _react2 = _interopRequireDefault(_react);
+	function roundFloat(val) {
+	  var base = arguments.length <= 1 || arguments[1] === undefined ? 2 : arguments[1];
 
-	var _constants = __webpack_require__(203);
+	  var n = Math.pow(10, base);
+	  return Math.floor(val * n) / n;
+	}
 
-	var _constants2 = _interopRequireDefault(_constants);
+	function warnInProduction() {
+	  if (alreadyWarned) {
+	    return;
+	  }
+	  alreadyWarned = true;
+	  if (typeof console !== 'undefined') {
+	    console.error('ReactPerf is not supported in the production builds of React. ' + 'To collect measurements, please use the development build of React instead.');
+	  }
+	}
 
-	var _classnames = __webpack_require__(197);
+	function getLastMeasurements() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
 
-	var _classnames2 = _interopRequireDefault(_classnames);
+	  return ReactDebugTool.getFlushHistory();
+	}
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function getExclusive() {
+	  var flushHistory = arguments.length <= 0 || arguments[0] === undefined ? getLastMeasurements() : arguments[0];
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  function updateAggregatedStats(treeSnapshot, instanceID, timerType, applyUpdate) {
+	    var displayName = treeSnapshot[instanceID].displayName;
 
-	__webpack_require__(216);
-
-	var ViewSelect = function (_Component) {
-	    _inherits(ViewSelect, _Component);
-
-	    function ViewSelect() {
-	        _classCallCheck(this, ViewSelect);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ViewSelect).call(this));
-
-	        _this.switchView = _this.switchView.bind(_this);
-	        return _this;
+	    var key = displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        counts: {},
+	        durations: {},
+	        totalDuration: 0
+	      };
 	    }
+	    if (!stats.durations[timerType]) {
+	      stats.durations[timerType] = 0;
+	    }
+	    if (!stats.counts[timerType]) {
+	      stats.counts[timerType] = 0;
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
 
-	    _createClass(ViewSelect, [{
-	        key: 'switchView',
-	        value: function switchView(view) {
-	            this.props.switchView(view);
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements;
+	    var treeSnapshot = flush.treeSnapshot;
+
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration;
+	      var instanceID = measurement.instanceID;
+	      var timerType = measurement.timerType;
+
+	      updateAggregatedStats(treeSnapshot, instanceID, timerType, function (stats) {
+	        stats.totalDuration += duration;
+	        stats.durations[timerType] += duration;
+	        stats.counts[timerType]++;
+	      });
+	    });
+	  });
+
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.totalDuration - a.totalDuration;
+	  });
+	}
+
+	function getInclusive() {
+	  var flushHistory = arguments.length <= 0 || arguments[0] === undefined ? getLastMeasurements() : arguments[0];
+
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
+
+	  function updateAggregatedStats(treeSnapshot, instanceID, applyUpdate) {
+	    var _treeSnapshot$instanc = treeSnapshot[instanceID];
+	    var displayName = _treeSnapshot$instanc.displayName;
+	    var ownerID = _treeSnapshot$instanc.ownerID;
+
+	    var owner = treeSnapshot[ownerID];
+	    var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        inclusiveRenderDuration: 0,
+	        renderCount: 0
+	      };
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
+
+	  var isCompositeByID = {};
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements;
+
+	    measurements.forEach(function (measurement) {
+	      var instanceID = measurement.instanceID;
+	      var timerType = measurement.timerType;
+
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      isCompositeByID[instanceID] = true;
+	    });
+	  });
+
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements;
+	    var treeSnapshot = flush.treeSnapshot;
+
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration;
+	      var instanceID = measurement.instanceID;
+	      var timerType = measurement.timerType;
+
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      updateAggregatedStats(treeSnapshot, instanceID, function (stats) {
+	        stats.renderCount++;
+	      });
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        // As we traverse parents, only count inclusive time towards composites.
+	        // We know something is a composite if its render() was called.
+	        if (isCompositeByID[nextParentID]) {
+	          updateAggregatedStats(treeSnapshot, nextParentID, function (stats) {
+	            stats.inclusiveRenderDuration += duration;
+	          });
 	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var clsAll = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_ALL ? 'current' : '');
-	            var clsComp = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_COMPLETED ? 'current' : '');
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'ViewSelect' },
-	                'View:',
-	                _react2.default.createElement(
-	                    'a',
-	                    { className: clsAll, onClick: this.switchView.bind(this, _constants2.default.FILTER_ALL) },
-	                    'All'
-	                ),
-	                _react2.default.createElement(
-	                    'a',
-	                    { className: clsComp, onClick: this.switchView.bind(this, _constants2.default.FILTER_COMPLETED) },
-	                    'Completed'
-	                )
-	            );
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+	  });
+
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.inclusiveRenderDuration - a.inclusiveRenderDuration;
+	  });
+	}
+
+	function getWasted() {
+	  var flushHistory = arguments.length <= 0 || arguments[0] === undefined ? getLastMeasurements() : arguments[0];
+
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
+
+	  function updateAggregatedStats(treeSnapshot, instanceID, applyUpdate) {
+	    var _treeSnapshot$instanc2 = treeSnapshot[instanceID];
+	    var displayName = _treeSnapshot$instanc2.displayName;
+	    var ownerID = _treeSnapshot$instanc2.ownerID;
+
+	    var owner = treeSnapshot[ownerID];
+	    var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        inclusiveRenderDuration: 0,
+	        renderCount: 0
+	      };
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
+
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements;
+	    var treeSnapshot = flush.treeSnapshot;
+	    var operations = flush.operations;
+
+	    var isDefinitelyNotWastedByID = {};
+
+	    // Find host components associated with an operation in this batch.
+	    // Mark all components in their parent tree as definitely not wasted.
+	    operations.forEach(function (operation) {
+	      var instanceID = operation.instanceID;
+
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        isDefinitelyNotWastedByID[nextParentID] = true;
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+
+	    // Find composite components that rendered in this batch.
+	    // These are potential candidates for being wasted renders.
+	    var renderedCompositeIDs = {};
+	    measurements.forEach(function (measurement) {
+	      var instanceID = measurement.instanceID;
+	      var timerType = measurement.timerType;
+
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      renderedCompositeIDs[instanceID] = true;
+	    });
+
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration;
+	      var instanceID = measurement.instanceID;
+	      var timerType = measurement.timerType;
+
+	      if (timerType !== 'render') {
+	        return;
+	      }
+
+	      // If there was a DOM update below this component, or it has just been
+	      // mounted, its render() is not considered wasted.
+	      var updateCount = treeSnapshot[instanceID].updateCount;
+
+	      if (isDefinitelyNotWastedByID[instanceID] || updateCount === 0) {
+	        return;
+	      }
+
+	      // We consider this render() wasted.
+	      updateAggregatedStats(treeSnapshot, instanceID, function (stats) {
+	        stats.renderCount++;
+	      });
+
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        // Any parents rendered during this batch are considered wasted
+	        // unless we previously marked them as dirty.
+	        var isWasted = renderedCompositeIDs[nextParentID] && !isDefinitelyNotWastedByID[nextParentID];
+	        if (isWasted) {
+	          updateAggregatedStats(treeSnapshot, nextParentID, function (stats) {
+	            stats.inclusiveRenderDuration += duration;
+	          });
 	        }
-	    }]);
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+	  });
 
-	    return ViewSelect;
-	}(_react.Component);
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.inclusiveRenderDuration - a.inclusiveRenderDuration;
+	  });
+	}
 
-	exports.default = ViewSelect;
+	function getOperations() {
+	  var flushHistory = arguments.length <= 0 || arguments[0] === undefined ? getLastMeasurements() : arguments[0];
 
-/***/ },
-/* 216 */
-/***/ function(module, exports) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
 
-	// removed by extract-text-webpack-plugin
+	  var stats = [];
+	  flushHistory.forEach(function (flush, flushIndex) {
+	    var operations = flush.operations;
+	    var treeSnapshot = flush.treeSnapshot;
+
+	    operations.forEach(function (operation) {
+	      var instanceID = operation.instanceID;
+	      var type = operation.type;
+	      var payload = operation.payload;
+	      var _treeSnapshot$instanc3 = treeSnapshot[instanceID];
+	      var displayName = _treeSnapshot$instanc3.displayName;
+	      var ownerID = _treeSnapshot$instanc3.ownerID;
+
+	      var owner = treeSnapshot[ownerID];
+	      var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+
+	      stats.push({
+	        flushIndex: flushIndex,
+	        instanceID: instanceID,
+	        key: key,
+	        type: type,
+	        ownerID: ownerID,
+	        payload: payload
+	      });
+	    });
+	  });
+	  return stats;
+	}
+
+	function printExclusive(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  var stats = getExclusive(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key;
+	    var instanceCount = item.instanceCount;
+	    var totalDuration = item.totalDuration;
+
+	    var renderCount = item.counts.render || 0;
+	    var renderDuration = item.durations.render || 0;
+	    return {
+	      'Component': key,
+	      'Total time (ms)': roundFloat(totalDuration),
+	      'Instance count': instanceCount,
+	      'Total render time (ms)': roundFloat(renderDuration),
+	      'Average render time (ms)': renderCount ? roundFloat(renderDuration / renderCount) : undefined,
+	      'Render count': renderCount,
+	      'Total lifecycle time (ms)': roundFloat(totalDuration - renderDuration)
+	    };
+	  });
+	  console.table(table);
+	}
+
+	function printInclusive(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  var stats = getInclusive(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key;
+	    var instanceCount = item.instanceCount;
+	    var inclusiveRenderDuration = item.inclusiveRenderDuration;
+	    var renderCount = item.renderCount;
+
+	    return {
+	      'Owner > Component': key,
+	      'Inclusive render time (ms)': roundFloat(inclusiveRenderDuration),
+	      'Instance count': instanceCount,
+	      'Render count': renderCount
+	    };
+	  });
+	  console.table(table);
+	}
+
+	function printWasted(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  var stats = getWasted(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key;
+	    var instanceCount = item.instanceCount;
+	    var inclusiveRenderDuration = item.inclusiveRenderDuration;
+	    var renderCount = item.renderCount;
+
+	    return {
+	      'Owner > Component': key,
+	      'Inclusive wasted time (ms)': roundFloat(inclusiveRenderDuration),
+	      'Instance count': instanceCount,
+	      'Render count': renderCount
+	    };
+	  });
+	  console.table(table);
+	}
+
+	function printOperations(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  var stats = getOperations(flushHistory);
+	  var table = stats.map(function (stat) {
+	    return {
+	      'Owner > Node': stat.key,
+	      'Operation': stat.type,
+	      'Payload': typeof stat.payload === 'object' ? JSON.stringify(stat.payload) : stat.payload,
+	      'Flush index': stat.flushIndex,
+	      'Owner Component ID': stat.ownerID,
+	      'DOM Component ID': stat.instanceID
+	    };
+	  });
+	  console.table(table);
+	}
+
+	var warnedAboutPrintDOM = false;
+	function printDOM(measurements) {
+	  process.env.NODE_ENV !== 'production' ? warning(warnedAboutPrintDOM, '`ReactPerf.printDOM(...)` is deprecated. Use ' + '`ReactPerf.printOperations(...)` instead.') : void 0;
+	  warnedAboutPrintDOM = true;
+	  return printOperations(measurements);
+	}
+
+	var warnedAboutGetMeasurementsSummaryMap = false;
+	function getMeasurementsSummaryMap(measurements) {
+	  process.env.NODE_ENV !== 'production' ? warning(warnedAboutGetMeasurementsSummaryMap, '`ReactPerf.getMeasurementsSummaryMap(...)` is deprecated. Use ' + '`ReactPerf.getWasted(...)` instead.') : void 0;
+	  warnedAboutGetMeasurementsSummaryMap = true;
+	  return getWasted(measurements);
+	}
+
+	function start() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  ReactDebugTool.beginProfiling();
+	}
+
+	function stop() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+
+	  ReactDebugTool.endProfiling();
+	}
+
+	function isRunning() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return false;
+	  }
+
+	  return ReactDebugTool.isProfiling();
+	}
+
+	var ReactPerfAnalysis = {
+	  getLastMeasurements: getLastMeasurements,
+	  getExclusive: getExclusive,
+	  getInclusive: getInclusive,
+	  getWasted: getWasted,
+	  getOperations: getOperations,
+	  printExclusive: printExclusive,
+	  printInclusive: printInclusive,
+	  printWasted: printWasted,
+	  printOperations: printOperations,
+	  start: start,
+	  stop: stop,
+	  isRunning: isRunning,
+	  // Deprecated:
+	  printDOM: printDOM,
+	  getMeasurementsSummaryMap: getMeasurementsSummaryMap
+	};
+
+	module.exports = ReactPerfAnalysis;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }
 /******/ ]);

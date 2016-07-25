@@ -9,6 +9,7 @@ var Constants = keyMirror({
 
     FILTER_ALL: null,
     FILTER_COMPLETED: null,
+    FILTER_ACTIVE: null,
     CHANGE_VIEW: null
 });
 

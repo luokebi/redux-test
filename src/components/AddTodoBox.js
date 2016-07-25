@@ -2,10 +2,12 @@
 
 import React, { Component } from 'react';
 require('./AddTodoBox.less');
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 class AddTodoBox extends Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.onAddTodo = this.onAddTodo.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
     }
