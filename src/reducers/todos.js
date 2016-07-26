@@ -25,7 +25,7 @@ export default function todos(state = initialTodos, action) {
             );
             break;
         case TODO.SHOW_TODO:
-            return state = fromJS(action.data.todos);
+            return fromJS(action.data.todos);
             break;
         default:
             return state;

@@ -64,13 +64,13 @@
 
 	var _todoApp2 = _interopRequireDefault(_todoApp);
 
-	var _reduxThunk = __webpack_require__(224);
+	var _reduxThunk = __webpack_require__(222);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.Perf = __webpack_require__(222);
+	window.Perf = __webpack_require__(223);
 
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 	var store = createStoreWithMiddleware(_todoApp2.default, window.devToolsExtension && window.devToolsExtension());
@@ -23509,7 +23509,7 @@
 	            });
 	            break;
 	        case _constants2.default.SHOW_TODO:
-	            return state = (0, _immutable.fromJS)(action.data.todos);
+	            return (0, _immutable.fromJS)(action.data.todos);
 	            break;
 	        default:
 	            return state;
@@ -28536,12 +28536,40 @@
 
 /***/ },
 /* 222 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__(223);
+	'use strict';
+
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+
+	exports['default'] = thunk;
 
 /***/ },
 /* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(224);
+
+/***/ },
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29039,34 +29067,6 @@
 
 	module.exports = ReactPerfAnalysis;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ },
-/* 224 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	function createThunkMiddleware(extraArgument) {
-	  return function (_ref) {
-	    var dispatch = _ref.dispatch;
-	    var getState = _ref.getState;
-	    return function (next) {
-	      return function (action) {
-	        if (typeof action === 'function') {
-	          return action(dispatch, getState, extraArgument);
-	        }
-
-	        return next(action);
-	      };
-	    };
-	  };
-	}
-
-	var thunk = createThunkMiddleware();
-	thunk.withExtraArgument = createThunkMiddleware;
-
-	exports['default'] = thunk;
 
 /***/ }
 /******/ ]);
