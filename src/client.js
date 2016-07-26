@@ -8,9 +8,10 @@ import thunk from 'redux-thunk';
 
 
 window.Perf = require('react-addons-perf');
+const initialState = window.__INITIAL_STATE__;
 
 let createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-let store = createStoreWithMiddleware(todoReducer, window.devToolsExtension && window.devToolsExtension());
+let store = createStoreWithMiddleware(todoReducer, initialState, window.devToolsExtension && window.devToolsExtension());
 
 render(
     <Provider store={store}>

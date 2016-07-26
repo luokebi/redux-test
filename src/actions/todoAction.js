@@ -1,6 +1,7 @@
 'use strict';
 
 import TODO from '../constants/constants.js';
+import fetch from 'isomorphic-fetch';
 
 
 export function addTodo(text) {

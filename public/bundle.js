@@ -54,26 +54,27 @@
 
 	var _reactRedux = __webpack_require__(172);
 
-	var _App = __webpack_require__(194);
+	var _App = __webpack_require__(198);
 
 	var _App2 = _interopRequireDefault(_App);
 
 	var _redux = __webpack_require__(179);
 
-	var _todoApp = __webpack_require__(218);
+	var _todoApp = __webpack_require__(222);
 
 	var _todoApp2 = _interopRequireDefault(_todoApp);
 
-	var _reduxThunk = __webpack_require__(222);
+	var _reduxThunk = __webpack_require__(226);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.Perf = __webpack_require__(223);
+	window.Perf = __webpack_require__(227);
+	var initialState = window.__INITIAL_STATE__;
 
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
-	var store = createStoreWithMiddleware(_todoApp2.default, window.devToolsExtension && window.devToolsExtension());
+	var store = createStoreWithMiddleware(_todoApp2.default, initialState, window.devToolsExtension && window.devToolsExtension());
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -21293,15 +21294,15 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _isPlainObject = __webpack_require__(181);
+	var _isPlainObject = __webpack_require__(192);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _hoistNonReactStatics = __webpack_require__(192);
+	var _hoistNonReactStatics = __webpack_require__(196);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
-	var _invariant = __webpack_require__(193);
+	var _invariant = __webpack_require__(197);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -22553,6 +22554,164 @@
 
 /***/ },
 /* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getPrototype = __webpack_require__(193),
+	    isHostObject = __webpack_require__(194),
+	    isObjectLike = __webpack_require__(195);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.8.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototype(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 193 */
+/***/ function(module, exports) {
+
+	/* Built-in method references for those with the same name as other `lodash` methods. */
+	var nativeGetPrototype = Object.getPrototypeOf;
+
+	/**
+	 * Gets the `[[Prototype]]` of `value`.
+	 *
+	 * @private
+	 * @param {*} value The value to query.
+	 * @returns {null|Object} Returns the `[[Prototype]]`.
+	 */
+	function getPrototype(value) {
+	  return nativeGetPrototype(Object(value));
+	}
+
+	module.exports = getPrototype;
+
+
+/***/ },
+/* 194 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+
+	module.exports = isHostObject;
+
+
+/***/ },
+/* 195 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 196 */
 /***/ function(module, exports) {
 
 	/**
@@ -22608,7 +22767,7 @@
 
 
 /***/ },
-/* 193 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22666,7 +22825,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 194 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22681,21 +22840,21 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TodoList = __webpack_require__(195);
+	var _TodoList = __webpack_require__(199);
 
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 
 	var _reactRedux = __webpack_require__(172);
 
-	var _AddTodoBox = __webpack_require__(209);
+	var _AddTodoBox = __webpack_require__(213);
 
 	var _AddTodoBox2 = _interopRequireDefault(_AddTodoBox);
 
-	var _todoAction = __webpack_require__(212);
+	var _todoAction = __webpack_require__(216);
 
 	var todoActions = _interopRequireWildcard(_todoAction);
 
-	var _ViewSelect = __webpack_require__(213);
+	var _ViewSelect = __webpack_require__(217);
 
 	var _ViewSelect2 = _interopRequireDefault(_ViewSelect);
 
@@ -22711,7 +22870,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(216);
+	__webpack_require__(220);
 
 	var App = function (_Component) {
 	    _inherits(App, _Component);
@@ -22780,7 +22939,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 /***/ },
-/* 195 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22795,11 +22954,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TodoItem = __webpack_require__(196);
+	var _TodoItem = __webpack_require__(200);
 
 	var _TodoItem2 = _interopRequireDefault(_TodoItem);
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -22811,7 +22970,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(207);
+	__webpack_require__(211);
 
 	var TodoList = function (_Component) {
 	    _inherits(TodoList, _Component);
@@ -22868,7 +23027,7 @@
 	exports.default = TodoList;
 
 /***/ },
-/* 196 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22883,11 +23042,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(197);
+	var _classnames = __webpack_require__(201);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+	var _reactAddonsPureRenderMixin = __webpack_require__(202);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -22899,7 +23058,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(201);
+	__webpack_require__(205);
 
 	var TodoItem = function (_Component) {
 	    _inherits(TodoItem, _Component);
@@ -22938,7 +23097,7 @@
 	exports.default = TodoItem;
 
 /***/ },
-/* 197 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22992,13 +23151,13 @@
 
 
 /***/ },
-/* 198 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(199);
+	module.exports = __webpack_require__(203);
 
 /***/ },
-/* 199 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23014,7 +23173,7 @@
 
 	'use strict';
 
-	var shallowCompare = __webpack_require__(200);
+	var shallowCompare = __webpack_require__(204);
 
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -23051,7 +23210,7 @@
 	module.exports = ReactComponentWithPureRenderMixin;
 
 /***/ },
-/* 200 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23081,16 +23240,16 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 201 */
+/* 205 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23099,7 +23258,7 @@
 	    value: true
 	});
 
-	var _keymirror = __webpack_require__(206);
+	var _keymirror = __webpack_require__(210);
 
 	var _keymirror2 = _interopRequireDefault(_keymirror);
 
@@ -23120,7 +23279,7 @@
 	exports.default = Constants;
 
 /***/ },
-/* 206 */
+/* 210 */
 /***/ function(module, exports) {
 
 	/**
@@ -23179,14 +23338,14 @@
 
 
 /***/ },
-/* 207 */
+/* 211 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 208 */,
-/* 209 */
+/* 212 */,
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23201,7 +23360,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+	var _reactAddonsPureRenderMixin = __webpack_require__(202);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -23213,7 +23372,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(210);
+	__webpack_require__(214);
 
 	var AddTodoBox = function (_Component) {
 	    _inherits(AddTodoBox, _Component);
@@ -23268,14 +23427,14 @@
 	exports.default = AddTodoBox;
 
 /***/ },
-/* 210 */
+/* 214 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 211 */,
-/* 212 */
+/* 215 */,
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23289,7 +23448,7 @@
 	exports.getTodos = getTodos;
 	exports.showTodos = showTodos;
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -23335,7 +23494,7 @@
 	}
 
 /***/ },
-/* 213 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23350,15 +23509,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _classnames = __webpack_require__(197);
+	var _classnames = __webpack_require__(201);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(198);
+	var _reactAddonsPureRenderMixin = __webpack_require__(202);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -23370,7 +23529,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(214);
+	__webpack_require__(218);
 
 	var ViewSelect = function (_Component) {
 	    _inherits(ViewSelect, _Component);
@@ -23424,21 +23583,21 @@
 	exports.default = ViewSelect;
 
 /***/ },
-/* 214 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 215 */,
-/* 216 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 217 */,
 /* 218 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 219 */,
+/* 220 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 221 */,
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23447,15 +23606,15 @@
 	    value: true
 	});
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _redux = __webpack_require__(179);
 
-	var _todos = __webpack_require__(219);
+	var _todos = __webpack_require__(223);
 
 	var _todos2 = _interopRequireDefault(_todos);
 
-	var _view = __webpack_require__(221);
+	var _view = __webpack_require__(225);
 
 	var _view2 = _interopRequireDefault(_view);
 
@@ -23467,7 +23626,7 @@
 	});
 
 /***/ },
-/* 219 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23477,11 +23636,11 @@
 	});
 	exports.default = todos;
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _immutable = __webpack_require__(220);
+	var _immutable = __webpack_require__(224);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23517,7 +23676,7 @@
 	}
 
 /***/ },
-/* 220 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28501,7 +28660,7 @@
 	}));
 
 /***/ },
-/* 221 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28511,7 +28670,7 @@
 	});
 	exports.default = view;
 
-	var _constants = __webpack_require__(205);
+	var _constants = __webpack_require__(209);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -28535,7 +28694,7 @@
 	}
 
 /***/ },
-/* 222 */
+/* 226 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -28563,13 +28722,13 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 223 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(224);
+	module.exports = __webpack_require__(228);
 
 /***/ },
-/* 224 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
