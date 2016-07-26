@@ -15,21 +15,23 @@ class TodoList extends Component {
     }
     render() {
         const { dispatch, todos, view } = this.props;
+        console.log("todo", todos);
         var _todos = todos.filter(function(t) {
-            console.log(view);
             if (view === TODO.FILTER_COMPLETED) {
-                return t.completed === true;
+                return t.get('completed') === true;
             } else if (view === TODO.FILTER_ACTIVE) {
-                return t.completed == false;
+                return t.get('completed') == false;
             } else {
                 return true;
             }
         });
+
+        console.log("_todo:", _todos);
         return (
             <div className="TodoList">
                 {_todos.map((t) => {
                     return (
-                        <TodoItem key={t.id} todo={t} onToggleTodo={this.onToggleTodo}/>
+                        <TodoItem key={t.get('id')} todo={t} onToggleTodo={this.onToggleTodo}/>
                     )
                 })}
             </div>

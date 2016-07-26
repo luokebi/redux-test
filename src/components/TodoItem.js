@@ -13,13 +13,13 @@ class TodoItem extends Component {
 
     render() {
         const {todo} = this.props;
-        let cls = cx('TodoItem', todo.completed ? 'completed': '');
+        let cls = cx('TodoItem', todo.get('completed') ? 'completed': '');
         return (
             <div className={cls}>
                 <div className="content">
-                    {todo.content}
+                    {todo.get('content')}
                 </div>
-                <div className="check-icon" onClick={this.props.onToggleTodo.bind(this, todo.id)}></div>
+                <div className="check-icon" onClick={this.props.onToggleTodo.bind(this, todo.get('id'))}></div>
             </div>
         )
     }
