@@ -64,10 +64,17 @@
 
 	var _todoApp2 = _interopRequireDefault(_todoApp);
 
+	var _reduxThunk = __webpack_require__(224);
+
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.Pref = __webpack_require__(222);
-	var store = (0, _redux.createStore)(_todoApp2.default, window.devToolsExtension && window.devToolsExtension());
+	window.Perf = __webpack_require__(222);
+
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
+	var store = createStoreWithMiddleware(_todoApp2.default, window.devToolsExtension && window.devToolsExtension());
+
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },
@@ -22709,13 +22716,14 @@
 	var App = function (_Component) {
 	    _inherits(App, _Component);
 
-	    function App() {
+	    function App(props) {
 	        _classCallCheck(this, App);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
 
 	        _this.onAddTodo = _this.onAddTodo.bind(_this);
 	        _this.switchView = _this.switchView.bind(_this);
+	        _this.props.actions.getTodos();
 	        return _this;
 	    }
 
@@ -23101,6 +23109,7 @@
 	    ADD_TODO: null,
 	    REMOVE_TODO: null,
 	    TOGGLE_TODO: null,
+	    SHOW_TODO: null,
 
 	    FILTER_ALL: null,
 	    FILTER_COMPLETED: null,
@@ -23277,6 +23286,8 @@
 	exports.addTodo = addTodo;
 	exports.toggleTodo = toggleTodo;
 	exports.changeView = changeView;
+	exports.getTodos = getTodos;
+	exports.showTodos = showTodos;
 
 	var _constants = __webpack_require__(205);
 
@@ -23302,6 +23313,24 @@
 	    return {
 	        type: _constants2.default.CHANGE_VIEW,
 	        view: view
+	    };
+	}
+
+	function getTodos() {
+	    return function (dispatch, getState) {
+	        fetch('/public/test.json').then(function (res) {
+	            res.json().then(function (json) {
+	                dispatch(showTodos(json));
+	            });
+	        });
+	    };
+	}
+
+	function showTodos(data) {
+	    console.log(data);
+	    return {
+	        type: _constants2.default.SHOW_TODO,
+	        data: data
 	    };
 	}
 
@@ -23456,7 +23485,13 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var initialTodos = (0, _immutable.fromJS)([{ content: "text", completed: false, id: 'sdfsdf' }]);
+	// Test performance
+	var _todos = [];
+	// for (var i = 0; i < 1000; i++) {
+	//     _todos.push({content:"text" + i, completed: false, id: 'sdfsdf' + i});
+	// }
+
+	var initialTodos = (0, _immutable.fromJS)(_todos);
 
 	function todos() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialTodos : arguments[0];
@@ -23472,6 +23507,9 @@
 	            }), function (t) {
 	                return t.set('completed', !t.get('completed'));
 	            });
+	            break;
+	        case _constants2.default.SHOW_TODO:
+	            return state = (0, _immutable.fromJS)(action.data.todos);
 	            break;
 	        default:
 	            return state;
@@ -29001,6 +29039,34 @@
 
 	module.exports = ReactPerfAnalysis;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 224 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+
+	exports['default'] = thunk;
 
 /***/ }
 /******/ ]);

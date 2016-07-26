@@ -1,0 +1,11 @@
+{
+  "todos" : [
+    {
+      "content": "My first todo.",
+      "completed": false,
+      "id": "sdfsdf"
+    }
+  ],
+
+  "view": "FILTER_ALL"
+}
