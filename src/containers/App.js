@@ -10,10 +10,11 @@ import  { bindActionCreators } from 'redux';
 require('./App.less');
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onAddTodo = this.onAddTodo.bind(this);
         this.switchView = this.switchView.bind(this);
+        this.props.actions.getTodos();
     }
     onAddTodo(content) {
         this.props.actions.addTodo(content);

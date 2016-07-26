@@ -24,3 +24,21 @@ export function changeView(view) {
         view: view
     }
 }
+
+export function getTodos() {
+   return (dispatch, getState) => {
+        fetch('/public/test.json').then(res => {
+            res.json().then(json => {
+                dispatch(showTodos(json));
+            })
+        })
+   };
+}
+
+export function showTodos(data) {
+    console.log(data);
+    return {
+        type: TODO.SHOW_TODO,
+        data: data
+    }
+}
