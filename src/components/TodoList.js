@@ -10,9 +10,6 @@ class TodoList extends Component {
         super(props);
         this.onToggleTodo = this.onToggleTodo.bind(this);
     }
-    shouldComponentUpdate(nextProps, nextState) {
-       return nextProps.todos !== this.props.todos || nextProps.view !== this.props.view;
-    }
     onToggleTodo(id) {
         this.props.actions.toggleTodo(id);
     }
