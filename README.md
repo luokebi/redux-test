@@ -1,8 +1,8 @@
 ##一些问题
-**server端render时出现Unexpected token... 问题**
+####server端render时出现Unexpected token... 问题
 node(v6.x)现在还不完全支持es6,所以需要babel才能运行
 有两种方法：
-- **babel-node**
+- **babel-node**  
 首先需要安装babel-cli
 ```
 $ npm install --save-dev babel-cli
@@ -20,7 +20,7 @@ $ npm run start
 ```
 *官方不推荐在procuction下面使用babel-node,因为cache被存储在内存中所以会占用很高的内存，你在启动时可能还会遇到性能问题，因为他是实时（即时）编译的*
 
-- **Require Hook**
+- **Require Hook**  
 第二种方法是使用require hook
 ```
 $ npm install babel-register --save
@@ -35,7 +35,7 @@ module.exports = require('./server.js');
 ```
 $ node start.js
 ```
-*注意*
+*注意*  
 上面两种方法你都需要先安装babel-presets-2015， babel-presets-react
 ```
 $ npm install --save-dev babel-presets-2015 babel-presets-reat
@@ -53,7 +53,7 @@ $ npm install --save-dev babel-presets-2015 babel-presets-reat
 	"start": "./node_modules/babel-cli/bin/babel-node server.js"
 }
 ```
-- Require Hook
+- Require Hook  
 ```
 require('babel/register')({
   presets: ["es2015", "react"]
@@ -72,7 +72,7 @@ require.extensions['.less'] = function(){return null};
 
 module.exports = require('./server.js');
 ```
-**Warnings: render() ...**
+####Warnings: render() ...
 ```
  Warning: render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.
 ```
@@ -88,13 +88,13 @@ module.exports = require('./server.js');
 ```
 
 ##一些开发工具
-**Redux DevTools**
+####Redux DevTools
 [Chrome Store](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
 
-**React performance tool**
+####React performance tool
 [Chrome Store](https://chrome.google.com/webstore/detail/react-perf/hacmcodfllhbnekmghgdlplbdnahmhmm)
 
-**why-do-you-update**
+####why-do-you-update
 [Github](https://github.com/garbles/why-did-you-update)
 
 ```
@@ -111,6 +111,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 该函数会在出现不必要渲染的时候在console中提醒你
 
-**nodemon, forever, pm2**
+####nodemon, forever, pm2
 开发用nodemon
 线上用forever, pm2
