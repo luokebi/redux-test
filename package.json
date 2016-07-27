@@ -21,7 +21,8 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "why-did-you-update": "0.0.8"
   },
   "dependencies": {
     "babel-register": "^6.11.5",
