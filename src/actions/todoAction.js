@@ -37,7 +37,6 @@ export function getTodos() {
 }
 
 export function showTodos(data) {
-    console.log(data);
     return {
         type: TODO.SHOW_TODO,
         data: data

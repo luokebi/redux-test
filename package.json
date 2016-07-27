@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch && node server.js",
-    "server": "./node_modules/.bin/babel server.js --out-file _server.js && node _server.js",
-    "server2": "./node_modules/.bin/babel-node _server.js"
+    "start": "webpack && node start.js"
   },
   "author": "",
   "license": "ISC",

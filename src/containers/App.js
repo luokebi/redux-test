@@ -23,7 +23,6 @@ class App extends Component {
         this.props.actions.changeView(view);
     }
     render() {
-        console.log(this.props);
         return (
             <div className="App">
                 <div className="container">
@@ -47,7 +46,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    console.log(bindActionCreators(todoActions, dispatch))
    return {
        actions: bindActionCreators(todoActions, dispatch)
    };

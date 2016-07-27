@@ -15,7 +15,6 @@ class TodoList extends Component {
     }
     render() {
         const { dispatch, todos, view } = this.props;
-        console.log("todo", todos);
         var _todos = todos.filter(function(t) {
             if (view === TODO.FILTER_COMPLETED) {
                 return t.get('completed') === true;
@@ -26,7 +25,6 @@ class TodoList extends Component {
             }
         });
 
-        console.log("_todo:", _todos);
         return (
             <div className="TodoList">
                 {_todos.map((t) => {
