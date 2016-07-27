@@ -112,5 +112,5 @@ if (process.env.NODE_ENV !== 'production') {
 该函数会在出现不必要渲染的时候在console中提醒你
 
 ####nodemon, forever, pm2
-开发用nodemon
-线上用forever, pm2
+- 开发用nodemon
+- 线上用forever, pm2
