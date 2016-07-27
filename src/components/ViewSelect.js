@@ -21,12 +21,13 @@ class ViewSelect extends Component{
     render() {
        var clsAll = cx('viewItem', this.props.view === TODO.FILTER_ALL  ? 'current': '');
         var clsComp = cx('viewItem', this.props.view === TODO.FILTER_COMPLETED ? 'current':'');
+        var clsAc = cx('viewItem', this.props.view === TODO.FILTER_ACTIVE ? 'current':'');
        return (
          <div className="ViewSelect">
              Show:
              <a className={clsAll} onClick={this.switchView.bind(this, TODO.FILTER_ALL)}>All</a>
              <a className={clsComp} onClick={this.switchView.bind(this, TODO.FILTER_COMPLETED)}>Completed</a>
-             <a className={clsComp} onClick={this.switchView.bind(this, TODO.FILTER_ACTIVE)}>Active</a>
+             <a className={clsAc} onClick={this.switchView.bind(this, TODO.FILTER_ACTIVE)}>Active</a>
          </div>
        );
     }

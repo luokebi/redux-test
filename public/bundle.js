@@ -23864,6 +23864,7 @@
 	        value: function render() {
 	            var clsAll = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_ALL ? 'current' : '');
 	            var clsComp = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_COMPLETED ? 'current' : '');
+	            var clsAc = (0, _classnames2.default)('viewItem', this.props.view === _constants2.default.FILTER_ACTIVE ? 'current' : '');
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'ViewSelect' },
@@ -23880,7 +23881,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'a',
-	                    { className: clsComp, onClick: this.switchView.bind(this, _constants2.default.FILTER_ACTIVE) },
+	                    { className: clsAc, onClick: this.switchView.bind(this, _constants2.default.FILTER_ACTIVE) },
 	                    'Active'
 	                )
 	            );
