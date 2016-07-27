@@ -28,6 +28,10 @@ export function changeView(view) {
 
 export function getTodos() {
    return (dispatch, getState) => {
+       var state = getState();
+       if (state.todos != null) {
+          return;
+       }
         fetch('/public/test.json').then(res => {
             res.json().then(json => {
                 dispatch(showTodos(json));

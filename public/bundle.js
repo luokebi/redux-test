@@ -23333,6 +23333,10 @@
 
 	function getTodos() {
 	    return function (dispatch, getState) {
+	        var state = getState();
+	        if (state.todos != null) {
+	            return;
+	        }
 	        (0, _isomorphicFetch2.default)('/public/test.json').then(function (res) {
 	            res.json().then(function (json) {
 	                dispatch(showTodos(json));

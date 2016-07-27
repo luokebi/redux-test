@@ -1,6 +1,4 @@
-require('babel-register')({
-    presets: ["es2015", "react"]
-});
+require('babel-register');
 
 require.extensions['.less'] = function(){return null};
 

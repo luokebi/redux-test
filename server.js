@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import App from './src/containers/App.js';
 import todoReducer from './src/reducers/todoApp.js';
-import {renderToString} from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import thunk from 'redux-thunk';
 import fetch from 'isomorphic-fetch';
 import { fromJS } from 'immutable';
@@ -22,7 +22,6 @@ app.get('/', function (req, res) {
         }
         return res.json();
     }).then(json => {
-        console.log(json);
         for (var i in json) {
            json[i] = fromJS(json[i]);
         }
