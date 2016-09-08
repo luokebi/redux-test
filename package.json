@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && node start.js"
+    "start": "webpack && node start.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "mocha": "^3.0.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "why-did-you-update": "0.0.8"
